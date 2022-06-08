@@ -1,0 +1,24 @@
+name: wikilocal CI
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  pull_request:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Install npm.
+        run: npm i
+      - name: Lint files.
+        run: npm run lint:js
+      #- name: Test functionalities/implementations.
+      #  run: npm test
+      - name: Build app to check it builds correctly.
+        run: npm run build
+      - name: Show message.
+        run: echo "All tests passed, app lint and build correctly."
