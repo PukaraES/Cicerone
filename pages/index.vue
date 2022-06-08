@@ -1,5 +1,5 @@
 <template>
-  <Tutorial />
+  <Maps />
 </template>
 
 <script>
