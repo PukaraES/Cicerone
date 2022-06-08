@@ -27,4 +27,5 @@ jobs:
           server: ftp.wikilocal.pukara.es
           username: wikilocal-admin@wikilocal.pukara.es
           password: ^$1ie3^@r6o4
-          server-dir: ./public_html/
+          local-dir: ./nuxt/dist/
+          server-dir: ./wikilocal.pukara.es/public_html/
