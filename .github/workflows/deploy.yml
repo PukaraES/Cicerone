@@ -1,0 +1,30 @@
+name: wikilocal CD
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@main
+      - uses: actions/setup-node@main
+        with:
+          node-version: 16
+      - name: Install npm.
+        run: npm i
+      - name: Lint files.
+        run: npm run lint:js
+      - name: Build app to check it builds correctly.
+        run: npm run build
+      - name: Show message.
+        run: echo "App lint and build correctly."
+
+      - name: Upload files on server.
+        uses: SamKirkland/FTP-Deploy-Action@4.3.0
+        with:
+          server: ftp.wikilocal.pukara.es
+          username: wikilocal-admin@wikilocal.pukara.es
+          password: ^$1ie3^@r6o4
+          server-dir: ./public_html/
