@@ -19,6 +19,14 @@ jobs:
       #- name: Test functionalities/implementations.
       #  run: npm test
       - name: Build app to check it builds correctly.
-        run: npm run build
+        run: npm run generate
       - name: Show message.
         run: echo "All tests passed, app lint and build correctly."
+      - name: Upload files on server.
+        uses: SamKirkland/FTP-Deploy-Action@4.3.0
+        with:
+          server: ftp.wikilocal.pukara.es
+          username: wikilocal-admin@wikilocal.pukara.es
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: dist/
+          server-dir: ./wikilocal.pukara.es/public_html/dist/
