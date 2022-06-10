@@ -1,5 +1,5 @@
 <template>
-  <Tutorial />
+  <WLHeader />
 </template>
 
 <script>
