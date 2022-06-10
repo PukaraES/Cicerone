@@ -1,5 +1,5 @@
 <template>
-  <Maps />
+  <Maps-leaflet />
 </template>
 
 <script>
