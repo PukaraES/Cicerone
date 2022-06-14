@@ -1,7 +1,7 @@
 <template>
   <div class="font-barlow text-slate-600 flex flex-col items-center">
-    <div class="w-4/5 p-4 border border-red-500">
-      <p class="float-left mx-4 p-2 font-bold text-4xl">
+    <div class="w-4/5 p-4 my-8">
+      <p class="float-left mx-4 font-bold text-4xl">
         Cerca de ti
       </p>
 
