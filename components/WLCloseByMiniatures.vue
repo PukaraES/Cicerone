@@ -1,7 +1,7 @@
 <template>
   <div class="w-4/5 p-4 mt-8 mb-32">
     <div class="grid grid-cols-3 gap-4">
-      <div v-for="data, index in array" :key="'min-'+index" class="w-full h-auto rounded-lg">
+      <div v-for="data, index in array" :key="'min-'+index" class="w-full h-auto rounded-lg overflow-hidden">
         <div>
           <p class="absolute text-xl bg-slate-500 rounded-md text-white px-2 py-1 transform translate-x-2 translate-y-2">
             {{ data.tier }}
