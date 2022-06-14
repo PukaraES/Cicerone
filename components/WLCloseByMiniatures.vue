@@ -6,7 +6,7 @@
           <p class="absolute text-xl bg-slate-500 rounded-md text-white px-2 py-1 transform translate-x-2 translate-y-2">
             {{ data.tier }}
           </p>
-          <img :src="data.image" :alt="'image-'+index" class="w-full h-full border rounded-lg shadow-md object-cover">
+          <img :src="'dist/'+data.image" :alt="'image-'+index" class="w-full h-full border rounded-lg shadow-md object-cover">
         </div>
         <p class="font-bold text-2xl px-2">
           {{ data.site }}
