@@ -6,7 +6,7 @@
           <p class="absolute text-xl bg-slate-500 rounded-md text-white px-2 py-1 transform translate-x-2 translate-y-2">
             Gratuito
           </p>
-          <img :src="locations[index].image != undefined ? locations[index].image.value : 'default.jpg'" :alt="'image-'+index" class="w-full h-full border rounded-lg shadow-md object-cover">
+          <img :src="locations[index].image != undefined ? locations[index].image.value : '/default-image.jpg'" :alt="'image-'+index" class="w-full h-full border rounded-lg shadow-md object-cover">
         </div>
         <p class="font-bold text-2xl px-2">
           {{ locations[index].placeLabel.value }}
