@@ -9,12 +9,15 @@ module.exports = {
         barlow: 'Barlow'
       },
       colors: {
-        slate: colors.blueGray
+        teal: colors.teal
       }
     }
   },
   variants: {
-    extend: {}
+    extend: {
+      backgroundColor: ['active'],
+      textColor: ['active']
+    }
   },
   plugins: []
 }
