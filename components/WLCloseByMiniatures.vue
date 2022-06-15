@@ -1,7 +1,7 @@
 <template>
   <div class="w-4/5 p-4 mt-8 mb-12">
-    <div class="grid grid-cols-3 grid-rows-2 gap-4">
-      <a v-for="data, index in array" :key="'min-'+index" href="#" target="_blank" class="inline-block group mb-12 rounded-lg shadow-xl md:hover:bg-teal-500 transition overflow-hidden">
+    <div class="grid md:grid-cols-3 md:grid-rows-2 gap-4">
+      <a v-for="data, index in array" :key="'min-'+index" href="#" target="_blank" class="inline-block group mb-4 md:mb-12 rounded-lg shadow-xl md:hover:bg-teal-500 transition overflow-hidden">
 
         <img :src="data.image" :alt="'image-'+index" class="w-full h-48 rounded-lg object-cover">
 
@@ -18,11 +18,11 @@
       </a>
     </div>
 
-    <hr class="border mb-4">
+    <hr class="border my-6 md:my-0 md:mb-4">
 
     <div class="flex justify-center">
       <p class="block text-gray-500 md:hover:text-white rounded-lg md:hover:bg-gray-500 mr-8 h-6 transition overflow-hidden">
-        <a href="#" class="block w-full h-full text-center px-4"><i class="fa-solid fa-arrow-left-long"></i> Previous</a>
+        <a href="#" class="block w-full h-full text-center px-4"><i class="fa-solid fa-arrow-left-long"></i> <span class="hidden md:block">Previous</span></a>
       </p>
       <p v-for="page, index in pages" :key="'page-'+index" class="block text-gray-500 md:hover:text-white rounded-lg md:hover:bg-gray-500 mx-2 w-6 h-6 transition overflow-hidden">
         <a href="#" class="block w-full h-full text-center">
@@ -30,7 +30,7 @@
         </a>
       </p>
       <p class="block text-gray-500 md:hover:text-white rounded-lg md:hover:bg-gray-500 ml-8 h-6 transition overflow-hidden">
-        <a href="#" class="block w-full h-full text-center px-4">Next <i class="fa-solid fa-arrow-right-long"></i></a>
+        <a href="#" class="block w-full h-full text-center px-4"><span class="hidden md:block">Next</span> <i class="fa-solid fa-arrow-right-long"></i></a>
       </p>
     </div>
   </div>
