@@ -10,6 +10,12 @@ module.exports = {
       },
       colors: {
         slate: colors.blueGray
+      },
+      width: {
+        272: '272px'
+      },
+      height: {
+        361: '361px'
       }
     }
   },

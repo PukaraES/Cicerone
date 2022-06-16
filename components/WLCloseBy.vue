@@ -17,11 +17,23 @@
 </template>
 
 <script>
+
 export default {
   name: 'WLCloseBy',
   data () {
     return {
-
+      coords: {}
+    }
+  },
+  methods: {
+    getLocation () {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+          this.coords = position.coords
+        })
+      } else {
+        alert('not supported')
+      }
     }
   }
 }
