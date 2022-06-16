@@ -21,16 +21,16 @@
     <hr class="border my-6 md:my-0 md:mb-4">
 
     <div class="flex justify-center">
-      <p class="block text-gray-500 md:hover:text-white rounded-lg md:hover:bg-gray-500 mr-8 h-6 transition overflow-hidden">
-        <a href="#" class="block w-full h-full text-center px-4"><i class="fa-solid fa-arrow-left-long"></i> <span class="hidden md:block">Previous</span></a>
+      <p class="text-gray-500 md:hover:text-white rounded-lg md:hover:bg-gray-500 mr-8 h-6 transition overflow-hidden">
+        <a href="#" class="block w-full h-full text-center px-4"><i class="fa-solid fa-arrow-left-long"></i> <span class="hidden md:inline">Previous</span></a>
       </p>
-      <p v-for="page, index in pages" :key="'page-'+index" class="block text-gray-500 md:hover:text-white rounded-lg md:hover:bg-gray-500 mx-2 w-6 h-6 transition overflow-hidden">
+      <p v-for="page, index in pages" :key="'page-'+index" class="text-gray-500 md:hover:text-white rounded-lg md:hover:bg-gray-500 mx-2 w-6 h-6 transition overflow-hidden">
         <a href="#" class="block w-full h-full text-center">
           {{ page }}
         </a>
       </p>
-      <p class="block text-gray-500 md:hover:text-white rounded-lg md:hover:bg-gray-500 ml-8 h-6 transition overflow-hidden">
-        <a href="#" class="block w-full h-full text-center px-4"><span class="hidden md:block">Next</span> <i class="fa-solid fa-arrow-right-long"></i></a>
+      <p class="text-gray-500 md:hover:text-white rounded-lg md:hover:bg-gray-500 ml-8 h-6 transition overflow-hidden">
+        <a href="#" class="block w-full h-full text-center px-4"><span class="hidden md:inline">Next</span> <i class="fa-solid fa-arrow-right-long"></i></a>
       </p>
     </div>
   </div>
