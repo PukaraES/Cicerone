@@ -27,19 +27,19 @@
       </div>
     </div>
 
-    <hr class="border my-4">
+    <hr class="border my-6 md:my-0 md:mb-4">
 
     <div class="flex justify-center">
-      <p class="block hover:text-white rounded-lg hover:bg-slate-500 mr-8 h-6 transition overflow-hidden">
-        <a href="#" class="block w-full h-full text-center px-4"><i class="fa-solid fa-arrow-left-long"></i> Previous</a>
+      <p class="text-gray-500 md:hover:text-white rounded-lg md:hover:bg-gray-500 mr-8 h-6 transition overflow-hidden">
+        <a href="#" class="block w-full h-full text-center px-4"><i class="fa-solid fa-arrow-left-long"></i> <span class="hidden md:inline">Previous</span></a>
       </p>
-      <p v-for="page, index in pages" :key="'page-'+index" class="block hover:text-white rounded-lg hover:bg-slate-500 mx-2 w-6 h-6 transition overflow-hidden">
+      <p v-for="page, index in pages" :key="'page-'+index" class="text-gray-500 md:hover:text-white rounded-lg md:hover:bg-gray-500 mx-2 w-6 h-6 transition overflow-hidden">
         <a href="#" class="block w-full h-full text-center">
           {{ page }}
         </a>
       </p>
-      <p class="block hover:text-white rounded-lg hover:bg-slate-500 ml-8 h-6 transition overflow-hidden">
-        <a href="#" class="block w-full h-full text-center px-4">Next <i class="fa-solid fa-arrow-right-long"></i></a>
+      <p class="text-gray-500 md:hover:text-white rounded-lg md:hover:bg-gray-500 ml-8 h-6 transition overflow-hidden">
+        <a href="#" class="block w-full h-full text-center px-4"><span class="hidden md:inline">Next</span> <i class="fa-solid fa-arrow-right-long"></i></a>
       </p>
     </div>
   </div>
@@ -82,52 +82,34 @@ export default {
       ],
       locations: [
         {
-          tier: 'Gratuito',
-          image: '/default.webp',
+          image: 'images/default.webp',
           site: 'Lorem ipsum',
-          city: 'Ciudad',
-          stars: 5,
-          tags: ['monument', 'building', 'historic']
+          description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex sed ipsam doloremque rem esse. Eaque quidem dignissimos quisquam, sequi similique explicabo in esse, dolores nesciunt ducimus fuga sunt est. Natus.'
         },
         {
-          tier: 'Gratuito',
-          image: '/default.webp',
+          image: 'images/default.webp',
           site: 'Lorem ipsum',
-          city: 'Ciudad',
-          stars: 5,
-          tags: ['monument', 'building', 'historic']
+          description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex sed ipsam doloremque rem esse. Eaque quidem dignissimos quisquam, sequi similique explicabo in esse, dolores nesciunt ducimus fuga sunt est. Natus.'
         },
         {
-          tier: 'Gratuito',
-          image: '/default.webp',
+          image: 'images/default.webp',
           site: 'Lorem ipsum',
-          city: 'Ciudad',
-          stars: 5,
-          tags: ['monument', 'building', 'historic']
+          description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex sed ipsam doloremque rem esse. Eaque quidem dignissimos quisquam, sequi similique explicabo in esse, dolores nesciunt ducimus fuga sunt est. Natus.'
         },
         {
-          tier: 'Gratuito',
-          image: '/default.webp',
+          image: 'images/default.webp',
           site: 'Lorem ipsum',
-          city: 'Ciudad',
-          stars: 5,
-          tags: ['monument', 'building', 'historic']
+          description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex sed ipsam doloremque rem esse. Eaque quidem dignissimos quisquam, sequi similique explicabo in esse, dolores nesciunt ducimus fuga sunt est. Natus.'
         },
         {
-          tier: 'Gratuito',
-          image: '/default.webp',
+          image: 'images/default.webp',
           site: 'Lorem ipsum',
-          city: 'Ciudad',
-          stars: 5,
-          tags: ['monument', 'building', 'historic']
+          description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex sed ipsam doloremque rem esse. Eaque quidem dignissimos quisquam, sequi similique explicabo in esse, dolores nesciunt ducimus fuga sunt est. Natus.'
         },
         {
-          tier: 'Gratuito',
-          image: '/default.webp',
+          image: 'images/default.webp',
           site: 'Lorem ipsum',
-          city: 'Ciudad',
-          stars: 5,
-          tags: ['monument', 'building', 'historic']
+          description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex sed ipsam doloremque rem esse. Eaque quidem dignissimos quisquam, sequi similique explicabo in esse, dolores nesciunt ducimus fuga sunt est. Natus.'
         }
       ]
     }

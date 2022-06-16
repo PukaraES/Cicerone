@@ -1,25 +1,25 @@
 <template>
-  <div class="font-barlow text-slate-600 flex flex-col items-center">
+  <div class="font-barlow flex flex-col items-center bg-teal-50">
     <div class="w-4/5 p-4">
-      <p class="my-4 text-4xl text-center w-1/2 font-bold mx-auto">
+      <p class="text-gray-700 my-4 text-2xl md:text-4xl text-justify font-bold mx-auto">
         Lorem ipsum dolor sit amet consectetur adipisicing elit.
       </p>
 
-      <p class="my-4 text-center w-1/2 mx-auto">
+      <p class="text-gray-500 my-4 text-justify mx-auto">
         Lorem ipsum dolor, sit amet consectetur adipisicing elit. Labore provident dignissimos libero vel reprehenderit repudiandae facere sunt, laborum magnam possimus, doloribus ipsa fugit praesentium officiis debitis numquam, doloremque veniam minus?
       </p>
     </div>
 
-    <div class="w-4/5 p-4 flex justify-center">
-      <input type="text" class="w-1/2 float-right mx-4 p-2 shadow-md">
-      <button class="float-right mx-4 p-2 shadow-md">
-        Buscar
+    <div class="w-full md:w-4/5 p-4 flex justify-center">
+      <input type="text" class="md:w-1/2 md:float-right mx-2 md:mx-4 p-2 md:p-4 rounded-lg shadow-md" placeholder="Tu ubicación">
+      <button class="text-gray-500 md:float-right mx-2 md:mx-4 md:p-4 p-2 rounded-lg shadow-md md:active:bg-teal-700 md:active:text-white transition">
+        <i class="fa-solid fa-magnifying-glass mr-2 text-teal-500"></i> Buscar
       </button>
     </div>
-     <div class="w-4/5 mt-8 mb-24 p-4 border border-red-500">
+     <div class="w-4/5 mt-8 mb-24 p-4 border ">
       <div style="height: 20rem; display:flex; justify-content: center;">
     <client-only>
-      <l-map id="map" :zoom="15" :center="[-2.54611111, 37.22361111]">
+      <l-map id="map" :zoom="15" :center="[40.4166,-3.7038]">
         <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"></l-tile-layer>
         <l-marker v-for="coord,index in coords" :key="'mark-'+index" :lat-lng="[coord.lat, coord.lon]"></l-marker>
       </l-map>
