@@ -19,7 +19,8 @@
      <div class="w-4/5 mt-8 mb-24 p-4 border ">
       <div style="height: 20rem; display:flex; justify-content: center;">
     <client-only>
-      <l-map id="map" :zoom="15" :center="[40.4166,-3.7038]">
+      <l-map id="map" :zoom="17" :center="[latitude, longitude]">
+        <l-marker :lat-lng="[latitude, longitude]"></l-marker>
         <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"></l-tile-layer>
         <l-marker v-for="coord,index in coords" :key="'mark-'+index" :lat-lng="[coord.lat, coord.lon]"></l-marker>
       </l-map>
@@ -34,12 +35,21 @@ export default {
   name: 'WLMap',
   data () {
     return {
-      coords: []
+      coords: [],
+      latitude: '',
+      longitude: ''
     }
   },
   mounted () {
-    const markers = require('../static/markers')
-    this.coords = markers.coordenadas
+    this.getPosition()
+  },
+  methods: {
+    getPosition () {
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.latitude = position.coords.latitude
+        this.longitude = position.coords.longitude
+      })
+    }
   }
 }
 </script>
