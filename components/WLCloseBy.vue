@@ -7,10 +7,10 @@
 
       <div class="flex flex-row-reverse md:w-3/6 my-2 md:my-0">
         <button class="mx-2 my-2 p-2 md:p-4 rounded-lg shadow-md md:active:bg-teal-700 md:active:text-white transition">
-          <i class="fa-solid fa-magnifying-glass mr-2 text-teal-500"></i> Buscar
+          <i class="fa-solid fa-magnifying-glass mr-2 text-teal-500" /> Buscar
         </button>
 
-        <input type="text" class="mx-2 md:w-4/6 my-2 p-2 md:p-4 rounded-lg shadow-md" placeholder="Tu ubicación"/>
+        <input type="text" class="mx-2 md:w-4/6 my-2 p-2 md:p-4 rounded-lg shadow-md" placeholder="Tu ubicación">
       </div>
     </div>
 
@@ -19,12 +19,16 @@
 </template>
 
 <script>
+
 export default {
   name: 'WLCloseBy',
   data () {
     return {
 
     }
+  },
+  methods: {
+
   }
 }
 </script>
