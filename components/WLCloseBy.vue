@@ -1,5 +1,5 @@
 <template>
-  <div class="font-barlow text-gray-600 flex flex-col items-center">
+  <div class="font-barlow bg-teal-50 text-gray-600 flex flex-col items-center">
     <div class="w-full md:w-4/5 md:p-4 my-2 md:my-8 flex flex-col md:flex-row justify-between items-center">
       <p class="md:w-2/6 text-gray-700 my-2 md:my-0 md:mx-4 font-bold text-3xl text-center md:text-left md:text-4xl">
         Cerca de ti

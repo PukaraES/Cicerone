@@ -1,17 +1,24 @@
 <template>
-  <div class="w-4/5 p-4 mt-8 mb-12">
+  <div class="md:w-4/5 p-4 mt-8 mb-12">
     <div class="grid md:grid-cols-3 md:grid-rows- gap-4">
-      <a v-for="data, index in locations" :key="'min-'+index" href="#" target="_blank" class="inline-block group mb-4 md:mb-12 rounded-lg shadow-xl md:hover:bg-teal-500 transition overflow-hidden">
+      <a
+        v-for="data, index in locations"
+        :key="'min-'+index"
+        ref="noreferrer"
+        href="#"
+        target="_blank"
+        class="inline-block mb-4 md:mb-12 rounded-lg shadow-xl md:hover:bg-teal-300 transition overflow-hidden"
+      >
 
-        <img :src="data.image != undefined ? data.image.value + width : '/images/default-image.jpg'" :alt="'image-'+index" class="w-full h-48 rounded-lg object-cover">
+        <img :src="data.image != undefined ? data.image.value + width : '/images/default-image.jpg'" :alt="'image-'+index" class="w-full h-48 object-cover">
 
-        <p class="text-gray-700 md:group-hover:text-white font-bold text-2xl my-4 mx-4">
+        <p class="text-gray-700 font-bold text-2xl my-4 mx-4">
           {{ data.placeLabel.value }}
         </p>
 
         <p class="inline-block mb-6 mx-4">
-          <i class="fas fa-tag text-teal-500 mr-2 md:group-hover:text-white" />
-          <em class="text-gray-500 md:group-hover:text-white">
+          <i class="fas fa-tag text-teal-500 mr-2" />
+          <em class="text-gray-500">
             {{ data.placeDescription != undefined ? data.placeDescription.value : 'No hay descripción.' }}
           </em>
         </p>
@@ -22,15 +29,15 @@
 
     <div class="flex justify-center">
       <p class="text-gray-500 md:hover:text-white rounded-lg md:hover:bg-gray-500 mr-8 h-6 transition overflow-hidden">
-        <a href="#" class="block w-full h-full text-center px-4"><i class="fa-solid fa-arrow-left-long" /> <span class="hidden md:inline">Previous</span></a>
+        <a ref="noreferrer" href="#" target="_blank" class="block w-full h-full text-center px-4"><i class="fa-solid fa-arrow-left-long" /> <span class="hidden md:inline">Previous</span></a>
       </p>
       <p v-for="page, index in pages" :key="'page-'+index" class="text-gray-500 md:hover:text-white rounded-lg md:hover:bg-gray-500 mx-2 w-6 h-6 transition overflow-hidden">
-        <a href="#" class="block w-full h-full text-center">
+        <a ref="noreferrer" href="#" target="_blank" class="block w-full h-full text-center">
           {{ page }}
         </a>
       </p>
       <p class="text-gray-500 md:hover:text-white rounded-lg md:hover:bg-gray-500 ml-8 h-6 transition overflow-hidden">
-        <a href="#" class="block w-full h-full text-center px-4"><span class="hidden md:inline">Next</span> <i class="fa-solid fa-arrow-right-long" /></a>
+        <a ref="noreferrer" href="#" target="_blank" class="block w-full h-full text-center px-4"><span class="hidden md:inline">Next</span> <i class="fa-solid fa-arrow-right-long" /></a>
       </p>
     </div>
   </div>
