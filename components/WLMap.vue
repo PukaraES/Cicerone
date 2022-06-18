@@ -13,7 +13,7 @@
     <div class="w-full md:w-4/5 p-4 flex justify-center">
       <input type="text" class="md:w-1/2 md:float-right mx-2 md:mx-4 p-2 md:p-4 rounded-lg shadow-md" placeholder="Tu ubicación">
       <button class="text-gray-500 md:float-right mx-2 md:mx-4 md:p-4 p-2 rounded-lg shadow-md md:active:bg-teal-700 md:active:text-white transition">
-        <i class="fa-solid fa-magnifying-glass mr-2 text-teal-500"></i> Buscar
+        <i class="fa-solid fa-magnifying-glass mr-2 text-teal-500" /> Buscar
       </button>
     </div>
 
