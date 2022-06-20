@@ -1,7 +1,7 @@
 <template>
   <div class="w-4/5 p-4 mt-8 mb-12">
     <div class="grid md:grid-cols-3 md:grid-rows- gap-4">
-      <a v-for="data, index in locations" :key="'min-'+index" href="#" target="_blank" class="inline-block group mb-4 md:mb-12 rounded-lg shadow-xl md:hover:bg-teal-500 transition overflow-hidden">
+      <a v-for="data, index in locations.slice(pageRange[0], pageRange[1])" :key="'min-'+index" href="#" target="_blank" class="inline-block group mb-4 md:mb-12 rounded-lg shadow-xl md:hover:bg-teal-500 transition overflow-hidden">
 
         <img :src="data.image != undefined ? data.image.value + width : '/images/default-image.jpg'" :alt="'image-'+index" class="w-full h-48 rounded-lg object-cover">
 
@@ -21,17 +21,29 @@
     <hr class="border my-6 md:my-0 md:mb-4">
 
     <div class="flex justify-center">
-      <p class="text-gray-500 md:hover:text-white rounded-lg md:hover:bg-gray-500 mr-8 h-6 transition overflow-hidden">
-        <a href="#" class="block w-full h-full text-center px-4"><i class="fa-solid fa-arrow-left-long" /> <span class="hidden md:inline">Previous</span></a>
-      </p>
-      <p v-for="page, index in pages" :key="'page-'+index" class="text-gray-500 md:hover:text-white rounded-lg md:hover:bg-gray-500 mx-2 w-6 h-6 transition overflow-hidden">
-        <a href="#" class="block w-full h-full text-center">
-          {{ page }}
-        </a>
-      </p>
-      <p class="text-gray-500 md:hover:text-white rounded-lg md:hover:bg-gray-500 ml-8 h-6 transition overflow-hidden">
-        <a href="#" class="block w-full h-full text-center px-4"><span class="hidden md:inline">Next</span> <i class="fa-solid fa-arrow-right-long" /></a>
-      </p>
+      <button :class=" pageRange[0] != 0 ? ['mx-2', 'text-gray-500', 'md:hover:text-white', 'rounded-lg', 'md:hover:bg-gray-500', 'p-2', 'transition'] : ['mx-2', 'bg-gray-300', 'p-2', 'rounded-lg', 'cursor-default']" @click="pageRange[0] > 0 ? firstPage() : ''">
+        <i class="fa-solid fa-arrow-left-long-to-line" />
+        <span class="hidden md:inline">First</span>
+      </button>
+
+      <button :class=" pageRange[0] != 0 ? ['text-gray-500', 'md:hover:text-white', 'rounded-lg', 'md:hover:bg-gray-500', 'p-2', 'transition'] : ['bg-gray-300', 'p-2', 'rounded-lg', 'cursor-default']" @click="pageRange[0] > 0 ? previousPage() : ''">
+        <i class="fa-solid fa-arrow-left-long" />
+        <span class="hidden md:inline">Previous</span>
+      </button>
+
+      <button v-for="page, index in pagesPerSection()" :key="'page-'+index" :class="['text-gray-500', 'md:hover:text-white', 'rounded-lg', 'md:hover:bg-gray-500', 'px-4', 'py-2', 'mx-2', 'transition', { 'bg-gray-300' : actualPage == index + 1 }]" @click="getPages(page)">
+        {{ page }}
+      </button>
+
+      <button :class=" pageRange[1] < locations.length ? ['text-gray-500', 'md:hover:text-white', 'rounded-lg', 'md:hover:bg-gray-500', 'p-2', 'transition'] : ['bg-gray-300', 'p-2', 'rounded-lg', 'cursor-default']" @click="pageRange[1] < locations.length ? nextPage() : ''">
+        <span class="hidden md:inline">Next</span>
+        <i class="fa-solid fa-arrow-right-long" />
+      </button>
+
+      <button :class=" pageRange[1] < locations.length ? ['mx-2', 'text-gray-500', 'md:hover:text-white', 'rounded-lg', 'md:hover:bg-gray-500', 'p-2', 'transition'] : ['mx-2', 'bg-gray-300', 'p-2', 'rounded-lg', 'cursor-default']" @click="pageRange[1] < locations.length ? lastPage() : ''">
+        <span class="hidden md:inline">Last</span>
+        <i class="fa-solid fa-arrow-right-long-to-line" />
+      </button>
     </div>
   </div>
 </template>
@@ -46,19 +58,43 @@ export default {
   name: 'WLCloseByMiniatures',
   data () {
     return {
-      pages: [
-        1,
-        2,
-        3
-      ],
+      pageRange: [0, 9],
+      pagesPerPage: 9,
+      actualPage: 1,
       locations: [],
+      active: 1,
       width: '?width=320px'
     }
+  },
+  computed: {
   },
   mounted () {
     this.getPosition()
   },
   methods: {
+    pagesPerSection () {
+      return Math.ceil(this.locations.length / this.pagesPerPage)
+    },
+    firstPage () {
+      this.getPages(1)
+    },
+    previousPage () {
+      if (this.actualPage > 1) { this.actualPage-- }
+      this.getPages(this.actualPage)
+    },
+    getPages (page) {
+      this.actualPage = page
+      const start = (page * this.pagesPerPage) - this.pagesPerPage
+      const end = (page * this.pagesPerPage)
+      this.pageRange = [start, end]
+    },
+    nextPage () {
+      if (this.actualPage < this.pagesPerSection()) { this.actualPage++ }
+      this.getPages(this.actualPage)
+    },
+    lastPage () {
+      this.getPages(this.pagesPerSection())
+    },
     getPosition () {
       navigator.geolocation.getCurrentPosition((position) => {
         this.$store.commit('setLatitude', position.coords.latitude)
@@ -69,7 +105,7 @@ export default {
             SERVICE wikibase:around {
               ?place wdt:P625 ?location.
               bd:serviceParam wikibase:center 'Point(${position.coords.longitude} ${position.coords.latitude})'^^geo:wktLiteral.
-              bd:serviceParam wikibase:radius '30'. }
+              bd:serviceParam wikibase:radius '300'. }
             SERVICE wikibase:label {
               bd:serviceParam wikibase:language 'es'.}
             SERVICE wikibase:label {
