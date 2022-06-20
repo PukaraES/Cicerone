@@ -22,12 +22,12 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
-    '@/assets/css/main.css',
+    '@/assets/css/main.css'
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    { src: '~/plugins/leaflet.js', mode: 'client' }, // only on clientside
+    { src: '~/plugins/leaflet.js', mode: 'client' } // only on clientside
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -47,8 +47,7 @@ export default {
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
-    'nuxt-leaflet',
-    
+    'nuxt-leaflet'    
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
