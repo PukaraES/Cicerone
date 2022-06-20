@@ -16,21 +16,79 @@
         <i class="fa-solid fa-magnifying-glass mr-2 text-teal-500" /> Buscar
       </button>
     </div>
-
-    <div class="w-4/5 mt-8 mb-24 p-4 border border-red-500">
-      <p>
-        Aqui va el mapa, quita esto y coloca lo que estas implementando.
-      </p>
+    <div class="w-4/5 mt-8 mb-24 p-4 border ">
+      <div style="height: 20rem; display:flex; justify-content: center;">
+        <client-only>
+          <l-map id="map" :zoom="12" :center="[$store.state.latitude, $store.state.longitude]">
+            <l-marker :lat-lng="[$store.state.latitude, $store.state.longitude]"></l-marker>
+            <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"></l-tile-layer>
+            <l-marker v-for="(mark,index) in marca" :key="index" :lat-lng="[mark[1], mark[0]]"></l-marker>
+          </l-map>
+        </client-only>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+const wbk = require('wikibase-sdk')({
+  instance: 'https:/wikidata.org',
+  sparqlEndpoint: 'https://query.wikidata.org/sparql'
+})
+
 export default {
   name: 'WLMap',
   data () {
     return {
+      marker: [],
+      latitude: '',
+      longitude: '',
+      marca: []
+    }
+  },
+  mounted () {
+    this.getPosition()
+  },
+  methods: {
+    getPosition () {
+      navigator.geolocation.getCurrentPosition((position) => {
+        const query = `SELECT ?place ?placeLabel ?dist (SAMPLE(?country) AS ?country) (SAMPLE(?image) AS ?image) (SAMPLE(?coord) AS ?coord) (SAMPLE(?placeDescription) AS ?placeDescription)
+          WHERE {
+            SERVICE wikibase:around {
+              ?place wdt:P625 ?location.
+              bd:serviceParam wikibase:center 'Point(${position.coords.longitude} ${position.coords.latitude})'^^geo:wktLiteral.
+              bd:serviceParam wikibase:radius '30'. }
+            SERVICE wikibase:label {
+              bd:serviceParam wikibase:language 'es'.}
+            SERVICE wikibase:label {
+              bd:serviceParam wikibase:language 'es'.
+              ?place schema:description ?placeDescription. }
+            ?place wdt:P1435 ?monument.
+            OPTIONAL { ?place wdt:P18 ?image. }
+            OPTIONAL { ?place wdt:P17 ?country. }
+            OPTIONAL { ?place wdt:P625 ?coord. }
+            BIND(geof:distance('Point(${position.coords.longitude} ${position.coords.latitude})'^^geo:wktLiteral, ?location) as ?dist)
+          }
+          GROUP BY ?place ?placeLabel ?dist
+          ORDER BY ?dist`
 
+        const url = wbk.sparqlQuery(query)
+
+        fetch(url, {
+          method: 'GET'
+        })
+          .then(res => res.json())
+          .then((data) => {
+            this.marker = data.results.bindings
+            const coordenada = this.marker.map(point => point.coord.value)
+            const regex = /(-[0-9]+.[0-9]+)/g
+            const latLng = coordenada.map(points =>
+              points.match(regex)
+            )
+            this.marca = latLng
+            console.log(this.marca)
+          })
+      })
     }
   }
 }
