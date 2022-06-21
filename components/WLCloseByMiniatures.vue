@@ -1,7 +1,7 @@
 <template>
   <div class="md:w-4/5 p-4 mt-8 mb-12">
     <div class="grid md:grid-cols-3 md:grid-rows- gap-4">
-      <a v-for="data, index in locations.slice(pageRange[0], pageRange[1])" :key="'min-'+index" href="#" target="_blank" class="inline-block group mb-4 md:mb-12 rounded-lg shadow-xl md:hover:bg-teal-500 transition overflow-hidden">
+      <a v-for="data, index in locations.slice(pageRange[0], pageRange[1])" :key="'min-'+index" href="#" target="_blank" class="inline-block group mb-4 md:mb-12 rounded-lg shadow-xl md:hover:bg-teal-300 transition overflow-hidden">
 
         <img :src="data.image != undefined ? data.image.value + width : '/images/default-image.jpg'" :alt="'image-'+index" class="w-full h-48 object-cover">
 
