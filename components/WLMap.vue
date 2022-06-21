@@ -67,7 +67,7 @@ export default {
             SERVICE wikibase:around {
               ?place wdt:P625 ?location.
               bd:serviceParam wikibase:center 'Point(${position.coords.longitude} ${position.coords.latitude})'^^geo:wktLiteral.
-              bd:serviceParam wikibase:radius '30'. }
+              bd:serviceParam wikibase:radius '300'. }
             SERVICE wikibase:label {
               bd:serviceParam wikibase:language 'es'.}
             SERVICE wikibase:label {
@@ -96,7 +96,6 @@ export default {
               points.match(regex)
             )
             this.marca = latLng
-            console.log(this.marca)
           })
       })
     }
