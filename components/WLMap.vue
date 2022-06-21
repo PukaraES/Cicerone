@@ -69,7 +69,7 @@ export default {
             SERVICE wikibase:around {
               ?place wdt:P625 ?location.
               bd:serviceParam wikibase:center 'Point(${position.coords.longitude} ${position.coords.latitude})'^^geo:wktLiteral.
-              bd:serviceParam wikibase:radius '50'. }
+              bd:serviceParam wikibase:radius '30'. }
             SERVICE wikibase:label {
               bd:serviceParam wikibase:language 'es'.}
             SERVICE wikibase:label {
