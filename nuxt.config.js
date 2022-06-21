@@ -22,10 +22,12 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
+    '@/assets/css/main.css'
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    { src: '~/plugins/leaflet.js', mode: 'client' } // only on clientside
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -44,7 +46,8 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
-    '@nuxtjs/pwa'
+    '@nuxtjs/pwa',
+    'nuxt-leaflet'
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -55,13 +58,23 @@ export default {
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
-    manifest: {
+    meta: {
       title: 'wikilocal',
-      shortname: 'wikilocal',
-      theme_color: 'lightblue',
+      author: 'Pukara'
+    },
+    manifest: {
+      name: 'wikilocal',
+      short_name: 'wikilocal',
       display: 'standalone',
-      description: 'La mejor idea para hacer turismo inteligente'
-    } // we have to add icons that are going to be added on the folder .nuxt/dist/client/icons
+      theme_color: '#14B8A6',
+      background_color: '#5EEAD4',
+      description: 'La mejor idea para hacer turismo inteligente',
+      lang: 'es'
+    },
+    icon: {
+      fileName: 'images/icon.png',
+      sizes: [64, 120, 144, 152, 192, 384, 512]
+    }
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
