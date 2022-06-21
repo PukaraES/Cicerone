@@ -47,7 +47,7 @@
         <button
           v-for="page, index in pagesPerSection('side')"
           :key="'page_left-'+index"
-          :class="['hidden', 'md:block', 'm-2', 'text-gray-500', 'md:hover:text-white', 'rounded-lg', 'md:hover:bg-gray-500', 'px-4', 'py-2', 'mx-2', 'transition', { 'bg-gray-300' : actualPage == page }]"
+          :class="['hidden', 'md:inline', 'm-2', 'text-gray-500', 'md:hover:text-white', 'rounded-lg', 'md:hover:bg-gray-500', 'px-4', 'py-2', 'mx-2', 'transition', { 'bg-gray-300' : actualPage == page }]"
           type="button"
           @click="getPages(page)"
         >
@@ -64,7 +64,7 @@
         <button
           v-for="page, index in pagesPerSection('side')"
           :key="'page_right-'+index"
-          :class="['hidden', 'md:block', 'm-2', 'text-gray-500', 'md:hover:text-white', 'rounded-lg', 'md:hover:bg-gray-500', 'px-4', 'py-2', 'mx-2', 'transition', { 'bg-gray-300' : actualPage == page + (pagesPerSection() - 4) }]"
+          :class="['hidden', 'md:inline', 'm-2', 'text-gray-500', 'md:hover:text-white', 'rounded-lg', 'md:hover:bg-gray-500', 'px-4', 'py-2', 'mx-2', 'transition', { 'bg-gray-300' : actualPage == page + (pagesPerSection() - 4) }]"
           type="button"
           @click="getPages(page + (pagesPerSection() - buttons))"
         >
@@ -72,12 +72,12 @@
         </button>
       </div>
 
-      <button type="button" :class="actualPage < locations.length ? ['m-2', 'text-gray-500', 'md:hover:text-white', 'rounded-lg', 'md:hover:bg-gray-500', 'p-2', 'transition'] : ['m-2', 'bg-gray-300', 'p-2', 'rounded-lg', 'cursor-default']" @click="pageRange[1] < locations.length ? nextPage() : ''">
+      <button type="button" :class="actualPage < pagesPerSection() ? ['m-2', 'text-gray-500', 'md:hover:text-white', 'rounded-lg', 'md:hover:bg-gray-500', 'p-2', 'transition'] : ['m-2', 'bg-gray-300', 'p-2', 'rounded-lg', 'cursor-default']" @click="pageRange[1] < locations.length ? nextPage() : ''">
         <span class="hidden md:inline">Siguiente</span>
         <i class="fa-solid fa-arrow-right-long" />
       </button>
 
-      <!-- <button type="button" :class=" pageRange[1] < locations.length ? ['m-2', 'text-gray-500', 'md:hover:text-white', 'rounded-lg', 'md:hover:bg-gray-500', 'p-2', 'transition'] : ['m-2', 'bg-gray-300', 'p-2', 'rounded-lg', 'cursor-default']" @click="pageRange[1] < locations.length ? lastPage() : ''">
+      <!-- <button type="button" :class=" pageRange[1] < pagesPerSection() ? ['m-2', 'text-gray-500', 'md:hover:text-white', 'rounded-lg', 'md:hover:bg-gray-500', 'p-2', 'transition'] : ['m-2', 'bg-gray-300', 'p-2', 'rounded-lg', 'cursor-default']" @click="pageRange[1] < locations.length ? lastPage() : ''">
         <span class="hidden md:inline">Ultimo</span>
         <i class="fa-solid fa-forward-fast" />
       </button> -->
@@ -144,7 +144,7 @@ export default {
           WHERE {
             SERVICE wikibase:around {
               ?place wdt:P625 ?location.
-              bd:serviceParam wikibase:center 'Point(-5.983333 37.383333)'^^geo:wktLiteral.
+              bd:serviceParam wikibase:center 'Point(${position.coords.longitude} ${position.coords.latitude})'^^geo:wktLiteral.
               bd:serviceParam wikibase:radius '30'. }
             SERVICE wikibase:label {
               bd:serviceParam wikibase:language 'es'.}
@@ -155,7 +155,7 @@ export default {
             OPTIONAL { ?place wdt:P18 ?image. }
             OPTIONAL { ?place wdt:P17 ?country. }
             OPTIONAL { ?place wdt:P625 ?coord. }
-            BIND(geof:distance('Point(-5.983333 37.383333)'^^geo:wktLiteral, ?location) as ?dist)
+            BIND(geof:distance('Point(${position.coords.longitude} ${position.coords.latitude})'^^geo:wktLiteral, ?location) as ?dist)
           }
           GROUP BY ?place ?placeLabel ?dist
           ORDER BY ?dist`
