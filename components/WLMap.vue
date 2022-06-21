@@ -19,7 +19,7 @@
     <div class="w-4/5 mt-8 mb-24 p-4 border ">
       <div style="height: 20rem; display:flex; justify-content: center;">
         <client-only>
-          <l-map id="map" :zoom="12" :center="[$store.state.latitude, $store.state.longitude]">
+          <l-map id="map" :zoom="20" :center="[$store.state.latitude, $store.state.longitude]">
             <l-marker :lat-lng="[$store.state.latitude, $store.state.longitude]">
               <l-icon
                 icon-url="/images/person-solid.svg"
@@ -27,12 +27,14 @@
               <l-popup> Aqui estas tú </l-popup>
             </l-marker>
             <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"></l-tile-layer>
-            <l-marker v-for="(mark,index) in marca" :key="index" :lat-lng="[mark[1], mark[0]]">
-              <l-popup>
-                <img :src="marker[index].image != undefined ? marker[index].image.value + '?width=320px' : '/images/default-image.jpg'"/>
-                <span class="font-bold">{{ marker[index].placeLabel.value }}</span>
-              </l-popup>
-            </l-marker>
+            <v-marker-cluster>
+              <l-marker v-for="(mark,index) in marca" :key="index" :lat-lng="[mark[1], mark[0]]">
+                <l-popup>
+                  <img :src="marker[index].image != undefined ? marker[index].image.value + '?width=320px' : '/images/default-image.jpg'"/>
+                  <span class="font-bold">{{ marker[index].placeLabel.value }}</span>
+                </l-popup>
+              </l-marker>
+            </v-marker-cluster>
           </l-map>
         </client-only>
       </div>
@@ -67,7 +69,7 @@ export default {
             SERVICE wikibase:around {
               ?place wdt:P625 ?location.
               bd:serviceParam wikibase:center 'Point(${position.coords.longitude} ${position.coords.latitude})'^^geo:wktLiteral.
-              bd:serviceParam wikibase:radius '300'. }
+              bd:serviceParam wikibase:radius '50'. }
             SERVICE wikibase:label {
               bd:serviceParam wikibase:language 'es'.}
             SERVICE wikibase:label {
