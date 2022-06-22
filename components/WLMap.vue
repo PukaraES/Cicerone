@@ -19,7 +19,7 @@
     <div class="w-4/5 mt-8 mb-24 p-4 border ">
       <div style="height: 20rem; display:flex; justify-content: center;">
         <client-only>
-          <l-map id="map" :zoom="18" :center="[$store.state.latitude, $store.state.longitude]">
+          <l-map id="map" :zoom="12" :center="[$store.state.latitude, $store.state.longitude]">
             <l-marker :lat-lng="[$store.state.latitude, $store.state.longitude]">
               <l-icon
                 icon-url="/images/person-solid.svg"
