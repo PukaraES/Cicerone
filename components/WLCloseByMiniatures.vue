@@ -1,14 +1,7 @@
 <template>
   <div class="md:w-4/5 p-4 mt-8 mb-12">
     <div class="grid md:grid-cols-3 md:grid-rows- gap-4">
-      <a
-        v-for="data, index in locations"
-        :key="'min-'+index"
-        ref="noreferrer"
-        href="#"
-        target="_blank"
-        class="inline-block mb-4 md:mb-12 rounded-lg shadow-xl md:hover:bg-teal-300 transition overflow-hidden"
-      >
+      <a v-for="data, index in locations.slice(pageRange[0], pageRange[1])" :key="'min-'+index" href="#" target="_blank" class="inline-block group mb-4 md:mb-12 rounded-lg shadow-xl md:hover:bg-teal-300 transition overflow-hidden">
 
         <img :src="data.image != undefined ? data.image.value + width : '/images/default-image.jpg'" :alt="'image-'+index" class="w-full h-48 object-cover">
 
@@ -27,18 +20,67 @@
 
     <hr class="border my-6 md:my-0 md:mb-4">
 
-    <div class="flex justify-center">
-      <p class="text-gray-500 md:hover:text-white rounded-lg md:hover:bg-gray-500 mr-8 h-6 transition overflow-hidden">
-        <a ref="noreferrer" href="#" target="_blank" class="block w-full h-full text-center px-4"><i class="fa-solid fa-arrow-left-long" /> <span class="hidden md:inline">Previous</span></a>
-      </p>
-      <p v-for="page, index in pages" :key="'page-'+index" class="text-gray-500 md:hover:text-white rounded-lg md:hover:bg-gray-500 mx-2 w-6 h-6 transition overflow-hidden">
-        <a ref="noreferrer" href="#" target="_blank" class="block w-full h-full text-center">
+    <div class="flex justify-center flex-wrap">
+      <!-- <button type="button" :class=" pageRange[0] != 0 ? ['m-2', 'text-gray-500', 'md:hover:text-white', 'rounded-lg', 'md:hover:bg-gray-500', 'p-2', 'transition'] : ['m-2', 'bg-gray-300', 'p-2', 'rounded-lg', 'cursor-default']" @click="pageRange[0] > 0 ? firstPage() : ''">
+        <i class="fa-solid fa-backward-fast" />
+        <span class="hidden md:inline">Primero</span>
+      </button> -->
+
+      <button type="button" :class="actualPage > 1 ? ['m-2', 'text-gray-500', 'md:hover:text-white', 'rounded-lg', 'md:hover:bg-gray-500', 'p-2', 'transition'] : ['m-2', 'bg-gray-300', 'p-2', 'rounded-lg', 'cursor-default']" @click="pageRange[0] > 0 ? previousPage() : ''">
+        <i class="fa-solid fa-arrow-left-long" />
+        <span class="hidden md:inline">Anterior</span>
+      </button>
+
+      <div v-if="pagesPerSection() <= 10">
+        <button
+          v-for="page, index in pagesPerSection()"
+          :key="'page-'+index"
+          :class="['m-2', 'text-gray-500', 'md:hover:text-white', 'rounded-lg', 'md:hover:bg-gray-500', 'px-4', 'py-2', 'mx-2', 'transition', { 'bg-gray-300' : actualPage == index + 1 }]"
+          type="button"
+          @click="getPages(page)"
+        >
           {{ page }}
-        </a>
-      </p>
-      <p class="text-gray-500 md:hover:text-white rounded-lg md:hover:bg-gray-500 ml-8 h-6 transition overflow-hidden">
-        <a ref="noreferrer" href="#" target="_blank" class="block w-full h-full text-center px-4"><span class="hidden md:inline">Next</span> <i class="fa-solid fa-arrow-right-long" /></a>
-      </p>
+        </button>
+      </div>
+
+      <div v-else>
+        <button
+          v-for="page, index in pagesPerSection('side')"
+          :key="'page_left-'+index"
+          :class="['hidden', 'md:inline', 'm-2', 'text-gray-500', 'md:hover:text-white', 'rounded-lg', 'md:hover:bg-gray-500', 'px-4', 'py-2', 'mx-2', 'transition', { 'bg-gray-300' : actualPage == page }]"
+          type="button"
+          @click="getPages(page)"
+        >
+          {{ page }}
+        </button>
+
+        <button
+          :class="['m-2', 'text-gray-500', 'rounded-lg', 'border', 'px-4', 'py-2', 'mx-2', 'transition', 'cursor-default']"
+          type="button"
+        >
+          {{ actualPage }}
+        </button>
+
+        <button
+          v-for="page, index in pagesPerSection('side')"
+          :key="'page_right-'+index"
+          :class="['hidden', 'md:inline', 'm-2', 'text-gray-500', 'md:hover:text-white', 'rounded-lg', 'md:hover:bg-gray-500', 'px-4', 'py-2', 'mx-2', 'transition', { 'bg-gray-300' : actualPage == page + (pagesPerSection() - 4) }]"
+          type="button"
+          @click="getPages(page + (pagesPerSection() - buttons))"
+        >
+          {{ page + (pagesPerSection() - buttons) }}
+        </button>
+      </div>
+
+      <button type="button" :class="actualPage < pagesPerSection() ? ['m-2', 'text-gray-500', 'md:hover:text-white', 'rounded-lg', 'md:hover:bg-gray-500', 'p-2', 'transition'] : ['m-2', 'bg-gray-300', 'p-2', 'rounded-lg', 'cursor-default']" @click="pageRange[1] < locations.length ? nextPage() : ''">
+        <span class="hidden md:inline">Siguiente</span>
+        <i class="fa-solid fa-arrow-right-long" />
+      </button>
+
+      <!-- <button type="button" :class=" pageRange[1] < pagesPerSection() ? ['m-2', 'text-gray-500', 'md:hover:text-white', 'rounded-lg', 'md:hover:bg-gray-500', 'p-2', 'transition'] : ['m-2', 'bg-gray-300', 'p-2', 'rounded-lg', 'cursor-default']" @click="pageRange[1] < locations.length ? lastPage() : ''">
+        <span class="hidden md:inline">Ultimo</span>
+        <i class="fa-solid fa-forward-fast" />
+      </button> -->
     </div>
   </div>
 </template>
@@ -53,19 +95,46 @@ export default {
   name: 'WLCloseByMiniatures',
   data () {
     return {
-      pages: [
-        1,
-        2,
-        3
-      ],
+      pageRange: [0, 9],
+      pagesPerPage: 9,
+      actualPage: 1,
       locations: [],
+      buttons: 4,
       width: '?width=320px'
     }
+  },
+  computed: {
   },
   mounted () {
     this.getPosition()
   },
   methods: {
+    pagesPerSection (from = '') {
+      if (from === 'side') {
+        return this.buttons
+      }
+      return Math.ceil(this.locations.length / this.pagesPerPage)
+    },
+    firstPage () {
+      this.getPages(1)
+    },
+    previousPage () {
+      if (this.actualPage > 1) { this.actualPage-- }
+      this.getPages(this.actualPage)
+    },
+    getPages (page) {
+      const start = (page * this.pagesPerPage) - this.pagesPerPage
+      const end = (page * this.pagesPerPage)
+      this.pageRange = [start, end]
+      this.actualPage = page
+    },
+    nextPage () {
+      if (this.actualPage < this.pagesPerSection()) { this.actualPage++ }
+      this.getPages(this.actualPage)
+    },
+    lastPage () {
+      this.getPages(this.pagesPerSection())
+    },
     getPosition () {
       navigator.geolocation.getCurrentPosition((position) => {
         this.$store.commit('setLatitude', position.coords.latitude)
