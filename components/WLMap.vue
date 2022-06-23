@@ -21,12 +21,10 @@
         <client-only>
           <l-map id="map" :zoom="15" :center="[$store.state.latitude, $store.state.longitude]">
             <l-marker :lat-lng="[$store.state.latitude, $store.state.longitude]">
-              <l-icon
-                icon-url="/images/person-solid.svg"
-              ></l-icon>
+              <l-icon icon-url="/images/person-solid.svg" />
               <l-popup> Aqui estas tú </l-popup>
             </l-marker>
-            <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"></l-tile-layer>
+            <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png" />
             <v-marker-cluster>
               <l-marker v-for="(mark,index) in marca" :key="index" :lat-lng="[mark[1], mark[0]]">
                 <l-popup>
