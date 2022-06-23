@@ -4,7 +4,7 @@
       <nuxt-link
         v-for="data, index in locations.slice(pageRange[0], pageRange[1])"
         :key="'min-'+index"
-        :to="{ name: 'places-id-place-details', params: { id: index } }"
+        :to="{ name: 'places-id-place-details', params: { id: getEntity(index), index: index } }"
         class="inline-block group mb-4 md:mb-12 rounded-lg shadow-xl md:hover:bg-teal-300 transition overflow-hidden"
       >
         <img :src="data.image != undefined ? data.image.value + width : '/images/default-image.jpg'" :alt="'image-'+index" class="w-full h-48 object-cover">
@@ -173,6 +173,13 @@ export default {
             this.$store.commit('setLocations', data.results.bindings)
           })
       })
+    },
+    getEntity (index) {
+      const url = this.locations[index].place.value
+      // eslint-disable-next-line
+      const regex = /(?:http:\/\/www.wikidata.org\/entity\/)/g
+      const entity = url.replace(regex, '')
+      return entity
     }
   }
 }
