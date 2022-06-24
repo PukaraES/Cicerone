@@ -82,6 +82,7 @@
         <i class="fa-solid fa-forward-fast" />
       </button> -->
     </div>
+    {{datos}}
   </div>
 </template>
 
@@ -93,6 +94,7 @@ const wbk = require('wikibase-sdk')({
 
 export default {
   name: 'WLCloseByMiniatures',
+  props: ['datos'],
   data () {
     return {
       pageRange: [0, 9],
@@ -104,6 +106,13 @@ export default {
     }
   },
   computed: {
+    /* Al obtener los datos setearlos en this.locations */
+    /* setLocations () {
+      if (this.props[datos] !== ''){
+        this.locations = this.datos
+        return this.locations
+      }
+    } */
   },
   mounted () {
     this.getPosition()
@@ -140,24 +149,19 @@ export default {
         this.$store.commit('setLatitude', position.coords.latitude)
         this.$store.commit('setLongitude', position.coords.longitude)
 
-        const query = `SELECT ?place ?placeLabel ?dist (SAMPLE(?country) AS ?country) (SAMPLE(?image) AS ?image) (SAMPLE(?coord) AS ?coord) (SAMPLE(?placeDescription) AS ?placeDescription)
+        const query = `SELECT ${this.datos} ?placeLabel ?dist (SAMPLE(?country) AS ?country) (SAMPLE(?image) AS ?image) (SAMPLE(?coord) AS ?coord) (SAMPLE(?placeDescription) AS ?placeDescription)
           WHERE {
-            SERVICE wikibase:around {
-              ?place wdt:P625 ?location.
-              bd:serviceParam wikibase:center 'Point(${position.coords.longitude} ${position.coords.latitude})'^^geo:wktLiteral.
-              bd:serviceParam wikibase:radius '30'. }
             SERVICE wikibase:label {
               bd:serviceParam wikibase:language 'es'.}
             SERVICE wikibase:label {
               bd:serviceParam wikibase:language 'es'.
-              ?place schema:description ?placeDescription. }
-            ?place wdt:P1435 ?monument.
-            OPTIONAL { ?place wdt:P18 ?image. }
-            OPTIONAL { ?place wdt:P17 ?country. }
-            OPTIONAL { ?place wdt:P625 ?coord. }
-            BIND(geof:distance('Point(${position.coords.longitude} ${position.coords.latitude})'^^geo:wktLiteral, ?location) as ?dist)
+              ${this.datos} schema:description ?placeDescription. }
+            ${this.datos} wdt:P1435 ?monument.
+            OPTIONAL { ${this.datos} wdt:P18 ?image. }
+            OPTIONAL { ${this.datos} wdt:P17 ?country. }
+            OPTIONAL { ${this.datos} wdt:P625 ?coord. }
           }
-          GROUP BY ?place ?placeLabel ?dist
+          GROUP BY ${this.datos} ?placeLabel ?dist
           ORDER BY ?dist`
 
         const url = wbk.sparqlQuery(query)
