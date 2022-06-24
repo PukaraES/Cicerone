@@ -1,6 +1,6 @@
 <template>
   <div class="font-barlow flex flex-col items-center bg-teal-50">
-    <div class="w-4/5 mt-8 mb-24 p-4 border ">
+    <div class="md:w-4/5 mt-8 mb-24 overflow-hidden rounded-lg">
       <div style="height: 20rem; display:flex; justify-content: center;">
         <client-only>
           <l-map id="map" :zoom="18" :center="[$store.state.latitude, $store.state.longitude]">
