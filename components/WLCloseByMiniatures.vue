@@ -1,21 +1,23 @@
 <template>
   <div class="md:w-4/5 p-4 mt-8 mb-12">
     <div class="grid md:grid-cols-3 md:grid-rows- gap-4">
-      <a v-for="data, index in locations.slice(pageRange[0], pageRange[1])" :key="'min-'+index" href="#" target="_blank" class="inline-block group mb-4 md:mb-12 rounded-lg shadow-xl md:hover:bg-teal-300 transition overflow-hidden">
-
+      <nuxt-link
+        v-for="data, index in locations.slice(pageRange[0], pageRange[1])"
+        :key="'min-'+index"
+        :to="{ name: 'places-id-place-details', params: { id: getEntity(index), index: index } }"
+        class="inline-block group mb-4 md:mb-12 rounded-lg shadow-xl md:hover:bg-teal-300 transition overflow-hidden"
+      >
         <img :src="data.image != undefined ? data.image.value + width : '/images/default-image.jpg'" :alt="'image-'+index" class="w-full h-48 object-cover">
-
         <p class="text-gray-700 font-bold text-2xl my-4 mx-4">
           {{ data.placeLabel.value }}
         </p>
-
         <p class="inline-block mb-6 mx-4">
           <i class="fas fa-tag text-teal-500 mr-2" />
           <em class="text-gray-500">
             {{ data.placeDescription != undefined ? data.placeDescription.value : 'No hay descripción.' }}
           </em>
         </p>
-      </a>
+      </nuxt-link>
     </div>
 
     <hr class="border my-6 md:my-0 md:mb-4">
@@ -171,6 +173,13 @@ export default {
             this.$store.commit('setLocations', data.results.bindings)
           })
       })
+    },
+    getEntity (index) {
+      const url = this.locations[index].place.value
+      // eslint-disable-next-line
+      const regex = /(?:http:\/\/www.wikidata.org\/entity\/)/g
+      const entity = url.replace(regex, '')
+      return entity
     }
   }
 }

@@ -5,17 +5,19 @@
         <client-only>
           <l-map id="map" :zoom="18" :center="[$store.state.latitude, $store.state.longitude]">
             <l-marker :lat-lng="[$store.state.latitude, $store.state.longitude]">
-              <l-icon
-                icon-url="/images/person-solid.svg"
-              ></l-icon>
+              <l-icon icon-url="/images/person-solid.svg" />
               <l-popup> Aqui estas tú </l-popup>
             </l-marker>
-            <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"></l-tile-layer>
+            <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png" />
             <v-marker-cluster>
               <l-marker v-for="(mark,index) in marca" :key="index" :lat-lng="[mark[1], mark[0]]">
                 <l-popup>
-                  <img :src="marker[index].image != undefined ? marker[index].image.value + '?width=320px' : '/images/default-image.jpg'"/>
-                  <span class="font-bold">{{ marker[index].placeLabel.value }}</span>
+                  <NuxtLink :to="{ name: 'places-id-place-details', params: { id: index } }">
+                    <div class="p-2">
+                      <img :src="marker[index].image != undefined ? marker[index].image.value + '?width=320px' : '/images/default-image.jpg'">
+                      <span class="font-bold">{{ marker[index].placeLabel.value }}</span>
+                    </div>
+                  </NuxtLink>
                 </l-popup>
               </l-marker>
             </v-marker-cluster>
