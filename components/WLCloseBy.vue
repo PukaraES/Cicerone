@@ -8,7 +8,7 @@
       <div class="flex flex-row-reverse w-full md:w-3/6 my-2 md:my-0 relative">
         <input v-model="search" type="text" class="md:mx-2 mx-auto w-11/12 md:w-full my-2 p-2 md:p-4 rounded-lg shadow-md" placeholder="Tu ubicación" @keyup="fetch">
 
-        <div v-if="results != []" class="absolute w-full top-20 h-48 overflow-y-scroll">
+        <div v-if="flag !== false" class="absolute w-full top-20 h-48 overflow-y-scroll">
           <div v-for="result, index in results" :key="'result-'+index" class="bg-white text-gray-700 text-xl px-2 py-1 hover:bg-gray-300" @click="sendEntity(index)">
             <span class="font-bold">{{ results[index].display.label.value | capitalize }}</span> -
             {{ results[index].display.description ? results[index].display.description.value : 'No hay descripción' | capitalize }}
@@ -35,7 +35,8 @@ export default {
       search: '',
       results: [],
       entity: '',
-      coords: []
+      coords: [],
+      flag: false
     }
   },
   methods: {
@@ -43,6 +44,7 @@ export default {
       this.entity = this.results[index].id
       this.sendCoord()
       this.results = ''
+      this.flag = false
 
       setTimeout(() => {
         this.$refs.miniatures.updateCoords()
@@ -58,6 +60,8 @@ export default {
           this.results = data.search
         })
         .catch(derr => derr)
+
+      this.flag = true
     },
     async sendCoord () {
       const url = `https://www.wikidata.org/w/api.php?action=wbgetclaims&format=json&entity=${this.entity}&property=p625&origin=*`
