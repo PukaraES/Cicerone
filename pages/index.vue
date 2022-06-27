@@ -23,3 +23,9 @@ export default {
   name: 'IndexPage'
 }
 </script>
+
+<style>
+* {
+  scroll-behavior: smooth;
+}
+</style>

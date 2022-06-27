@@ -4,7 +4,7 @@
       <nuxt-link
         v-for="data, index in locations.slice(pageRange[0], pageRange[1])"
         :key="'min-'+index"
-        :to="{ name: 'places-id-place-details', params: { id: getEntity(index), index: index } }"
+        :to="{ name: 'places-id-place-details', params: { id: getEntity(index + pageRange[0]), index: index + pageRange[0] } }"
         class="inline-block group mb-4 md:mb-12 rounded-lg shadow-xl md:hover:bg-teal-300 transition overflow-hidden"
       >
         <img :src="data.image != undefined ? data.image.value + width : '/images/default-image.jpg'" :alt="'image-'+index" class="w-full h-48 object-cover">
@@ -95,17 +95,26 @@ const wbk = require('wikibase-sdk')({
 
 export default {
   name: 'WLCloseByMiniatures',
+  props: {
+    coords: {
+      type: null,
+      default () {
+        return null
+      }
+    }
+  },
   data () {
     return {
       pageRange: [0, 9],
       pagesPerPage: 9,
       actualPage: 1,
       locations: [],
+      latitude: '',
+      tongitude: '',
+      upCoords: false,
       buttons: 4,
       width: '?width=320px'
     }
-  },
-  computed: {
   },
   mounted () {
     this.getPosition()
@@ -139,14 +148,18 @@ export default {
     },
     getPosition () {
       navigator.geolocation.getCurrentPosition((position) => {
-        this.$store.commit('setLatitude', position.coords.latitude)
-        this.$store.commit('setLongitude', position.coords.longitude)
+        if (this.upCoords !== true) {
+          this.latitude = position.coords.latitude
+          this.longitude = position.coords.longitude
+          this.$store.commit('setLatitude', position.coords.latitude)
+          this.$store.commit('setLongitude', position.coords.longitude)
+        }
 
         const query = `SELECT ?place ?placeLabel ?dist (SAMPLE(?country) AS ?country) (SAMPLE(?image) AS ?image) (SAMPLE(?coord) AS ?coord) (SAMPLE(?placeDescription) AS ?placeDescription)
           WHERE {
             SERVICE wikibase:around {
               ?place wdt:P625 ?location.
-              bd:serviceParam wikibase:center 'Point(${position.coords.longitude} ${position.coords.latitude})'^^geo:wktLiteral.
+              bd:serviceParam wikibase:center 'Point(${this.longitude} ${this.latitude})'^^geo:wktLiteral.
               bd:serviceParam wikibase:radius '30'. }
             SERVICE wikibase:label {
               bd:serviceParam wikibase:language 'es'.}
@@ -157,7 +170,7 @@ export default {
             OPTIONAL { ?place wdt:P18 ?image. }
             OPTIONAL { ?place wdt:P17 ?country. }
             OPTIONAL { ?place wdt:P625 ?coord. }
-            BIND(geof:distance('Point(${position.coords.longitude} ${position.coords.latitude})'^^geo:wktLiteral, ?location) as ?dist)
+            BIND(geof:distance('Point(${this.longitude} ${this.latitude})'^^geo:wktLiteral, ?location) as ?dist)
           }
           GROUP BY ?place ?placeLabel ?dist
           ORDER BY ?dist`
@@ -180,6 +193,18 @@ export default {
       const regex = /(?:http:\/\/www.wikidata.org\/entity\/)/g
       const entity = url.replace(regex, '')
       return entity
+    },
+    updateCoords () {
+      // eslint-disable-next-line
+      this.latitude = this.coords["P625"][0].mainsnak.datavalue.value.latitude
+      // eslint-disable-next-line
+      this.longitude = this.coords["P625"][0].mainsnak.datavalue.value.longitude
+      // eslint-disable-next-line
+      this.$store.commit('setLatitude', this.coords["P625"][0].mainsnak.datavalue.value.latitude)
+      // eslint-disable-next-line
+      this.$store.commit('setLongitude', this.coords["P625"][0].mainsnak.datavalue.value.longitude)
+      this.upCoords = true
+      this.getPosition()
     }
   }
 }

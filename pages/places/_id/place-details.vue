@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-teal-50">
+  <div>
     <nuxt-link to="/">
       <p class="bg-teal-300 p-3 fixed left-6 hover:bg-teal-700 hover:text-white transition rounded-b-lg">
         ATRAS
@@ -29,7 +29,7 @@
     </div>
 
     <div class="mx-auto md:w-5/6 overflow-hidden px-8 pt-8 pb-16">
-      <p class="text-lg md:text-xl text-justify text-teal-500">
+      <p class="text-lg md:text-xl text-justify text-gray-700">
         {{ wikiExtract != '' ? wikiExtract : 'No hay descripción' }}
       </p>
     </div>
@@ -40,7 +40,7 @@
 export default {
   data () {
     return {
-      width: '?width=1024px',
+      width: '?width=800px',
       wikiExtract: '',
       wikiImages: '',
       active: 0,
@@ -148,5 +148,7 @@ export default {
 </script>
 
 <style scoped>
-
+  * {
+    scroll-behavior: smooth;
+  }
 </style>
