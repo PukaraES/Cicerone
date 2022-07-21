@@ -1,4 +1,4 @@
-name: wikilocal CD
+name: cicerone CD
 
 on:
   push:
