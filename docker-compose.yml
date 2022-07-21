@@ -1,0 +1,14 @@
+version: "3"
+services:
+  cicerone:
+    image: "node:16"
+    working_dir: /app
+    build: ./
+    command: bash -c "npm run dev && npm run build && npm run start && npm run generate"
+    volumes:
+      - ./:/app
+      - ./node_modules:/app/node_modules
+    environment:
+      - NUXT_HOST=0.0.0.0
+      - NUXT_PORT=3000
+  
