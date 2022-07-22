@@ -25,8 +25,8 @@ jobs:
       - name: Upload files on server.
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
         with:
-          server: ftp.wikilocal.pukara.es
-          username: wikilocal-admin@wikilocal.pukara.es
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: dist/
           server-dir: ./wikilocal.pukara.es/public_html/
