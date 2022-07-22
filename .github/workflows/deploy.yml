@@ -23,8 +23,8 @@ jobs:
       - name: Upload files on server.
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
         with:
-          server: ftp.cicerone.guide
-          username: admin@cicerone.guide
+          server: ${{ secrets.FTP_CICERONE_HOST }}
+          username: ${{ secrets.FTP_CICERONE_USERNAME }}
           password: ${{ secrets.FTP_CICERONE_PASSWORD }}
           local-dir: dist/
           server-dir: ./cicerone.guide/public_html/
