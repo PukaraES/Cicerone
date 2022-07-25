@@ -3,7 +3,6 @@ services:
   cicerone:
     image: "node:16"
     working_dir: /app
-    build: ./
     command: bash -c "npm run dev && npm run build && npm run start && npm run generate"
     volumes:
       - ./:/app
