@@ -13,5 +13,4 @@ const LeafletPlugin = {
     L.markerClusterGroup({ showCoverageOnHover: false })
   }
 }
-
 Vue.use(LeafletPlugin)

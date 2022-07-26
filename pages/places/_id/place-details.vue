@@ -33,10 +33,21 @@
         {{ wikiExtract != '' ? wikiExtract : 'No hay descripción' }}
       </p>
     </div>
+    <div style="height: 20rem; display:flex; justify-content: center;">
+      <client-only>
+        <l-map id="map" ref="myMap" @ready="onReadyMap()" :zoom=18 :center="[$store.state.latitude, $store.state.longitude]">
+          <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"></l-tile-layer>
+        </l-map>
+      </client-only>
+    </div>
   </div>
 </template>
 
 <script>
+import * as L from 'leaflet'
+// eslint-disable-next-line
+import * as Routing from 'leaflet-routing-machine'
+
 export default {
   data () {
     return {
@@ -58,13 +69,29 @@ export default {
     },
     getImage () {
       return this.$store.state.locations[this.$route.params.index].image
+    },
+    getCoord () {
+      const coords = this.$store.state.locations[this.$route.params.index].coord.value
+      const regex = /([-0-9]+.[0-9]*)/g
+      return coords.match(regex)
     }
   },
   mounted () {
-    this.fetchWiki()
-    this.isLoading = true
   },
   methods: {
+
+    onReadyMap () {
+      // eslint-disable-next-line
+      let monumentCoords = this.$store.state.locations[this.$route.params.index].coord.value
+      const map = this.$refs.myMap.mapObject
+      L.Routing.control({
+        waypoints: [
+          L.latLng(this.$store.state.latitude, this.$store.state.longitude),
+          L.latLng(-34.606066489680444, -58.37038391731226)
+        ]
+      }).addTo(map)
+    },
+
     async fetchWiki () {
       const urlId = `https://www.wikidata.org/wiki/Special:EntityData/${this.getId}.json`
 
