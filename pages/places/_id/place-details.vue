@@ -37,7 +37,7 @@
       <div class="w-11/12 md:w-4/5 my-8 overflow-hidden rounded-lg">
         <div style="height: 15rem; display:flex; justify-content: center;">
           <client-only>
-            <l-map id="map" ref="myMap" @ready="onReadyMap()" :zoom=18 :center="[$store.state.latitude, $store.state.longitude]">
+            <l-map id="map" ref="myMap" @ready="onReadyMap()" :zoom=15 :center="[$store.state.latitude, $store.state.longitude]">
               <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"></l-tile-layer>
             </l-map>
           </client-only>
