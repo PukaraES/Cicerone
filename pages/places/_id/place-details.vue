@@ -35,10 +35,10 @@
     </div>
     <div class="font-barlow flex flex-col items-center bg-teal-50">
       <div class="w-11/12 md:w-4/5 my-8 overflow-hidden rounded-lg">
-        <div style="height: 15rem; display:flex; justify-content: center;">
+        <div style="height: 30rem; display:flex; justify-content: center;">
           <client-only>
-            <l-map id="map" ref="myMap" @ready="onReadyMap()" :zoom="15" :center="[$store.state.latitude, $store.state.longitude]">
-              <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"></l-tile-layer>
+            <l-map id="map" ref="myMap" :zoom="12" :center="[$store.state.latitude, $store.state.longitude]" @ready="onReadyMap()">
+              <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png" />
             </l-map>
           </client-only>
         </div>
@@ -89,7 +89,6 @@ export default {
       let monumentCoords = this.$store.state.locations[this.$route.params.index].coord.value
       const map = this.$refs.myMap.mapObject
       const reverso = this.getCoord().reverse()
-      console.log(reverso)
       L.Routing.control({
         waypoints: [
           L.latLng(this.$store.state.latitude, this.$store.state.longitude),
