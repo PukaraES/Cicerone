@@ -89,12 +89,27 @@ export default {
       let monumentCoords = this.$store.state.locations[this.$route.params.index].coord.value
       const map = this.$refs.myMap.mapObject
       const reverso = this.getCoord().reverse()
-      L.Routing.control({
+      // eslint-disable-next-line
+      const carRouter = L.Routing.osrmv1({
         language: 'es',
+        serviceUrl: 'https://routing.openstreetmap.de/routed-car/route/v1'
+      })
+      // eslint-disable-next-line
+      const bikeRouter = L.Routing.osrmv1({
+        language: 'es',
+        serviceUrl: 'https://routing.openstreetmap.de/routed-bike/route/v1'
+      })
+      // eslint-disable-next-line
+      const footRouter = L.Routing.osrmv1({
+        language: 'es',
+        serviceUrl: 'https://routing.openstreetmap.de/routed-foot/route/v1'
+      })
+      L.Routing.control({
         waypoints: [
           L.latLng(this.$store.state.latitude, this.$store.state.longitude),
           L.latLng(reverso)
-        ]
+        ],
+        router: footRouter
       }).addTo(map)
     },
 
