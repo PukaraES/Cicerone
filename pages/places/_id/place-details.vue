@@ -90,6 +90,7 @@ export default {
       const map = this.$refs.myMap.mapObject
       const reverso = this.getCoord().reverse()
       L.Routing.control({
+        language: 'es',
         waypoints: [
           L.latLng(this.$store.state.latitude, this.$store.state.longitude),
           L.latLng(reverso)
