@@ -33,10 +33,30 @@
         {{ wikiExtract != '' ? wikiExtract : 'No hay descripción' }}
       </p>
     </div>
+    <div class="font-barlow flex flex-col items-center bg-teal-50">
+      <div class="w-11/12 md:w-4/5 my-8 overflow-hidden rounded-lg">
+        <div style="height: 30rem; display:flex; justify-content: center;">
+          <client-only>
+            <l-map id="map" ref="myMap" :zoom="12" :center="[$store.state.latitude, $store.state.longitude]" @ready="onReadyMap(defineRoute)">
+              <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png" />
+            </l-map>
+          </client-only>
+        </div>
+        <div>
+          <button @click="onReadyMap('1')">transporte 1</button>
+          <button @click="onReadyMap('2')">transporte 2</button>
+          <button @click="onReadyMap('3')">transporte 3</button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import * as L from 'leaflet'
+// eslint-disable-next-line
+import * as Routing from 'leaflet-routing-machine'
+
 export default {
   data () {
     return {
@@ -62,9 +82,44 @@ export default {
   },
   mounted () {
     this.fetchWiki()
-    this.isLoading = true
   },
   methods: {
+    getCoord () {
+      const coords = this.$store.state.locations[this.$route.params.index].coord.value
+      const regex = /([-0-9]+.[0-9]*)/g
+      return coords.match(regex)
+    },
+    onReadyMap (param) {
+      const map = this.$refs.myMap.mapObject
+      const reverso = this.getCoord().reverse()
+      let defineRoute
+
+      switch (param) {
+        case '1':
+          defineRoute = 'https://routing.openstreetmap.de/routed-car/route/v1'
+          break
+        case '2':
+          defineRoute = 'https://routing.openstreetmap.de/routed-bike/route/v1'
+          break
+        case '3':
+          defineRoute = 'https://routing.openstreetmap.de/routed-foot/route/v1'
+          break
+        default:
+          defineRoute = 'https://routing.openstreetmap.de/routed-car/route/v1'
+      }
+
+      L.Routing.control({
+        waypoints: [
+          L.latLng(this.$store.state.latitude, this.$store.state.longitude),
+          L.latLng(reverso)
+        ],
+        router: L.Routing.osrmv1({
+          language: 'es',
+          serviceUrl: defineRoute
+        })
+      }).addTo(map)
+    },
+
     async fetchWiki () {
       const urlId = `https://www.wikidata.org/wiki/Special:EntityData/${this.getId}.json`
 

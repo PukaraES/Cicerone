@@ -16,6 +16,7 @@
     "@nuxtjs/pwa": "^3.3.5",
     "core-js": "^3.19.3",
     "leaflet": "^1.8.0",
+    "leaflet-routing-machine": "^3.2.12",
     "leaflet.markercluster": "^1.5.3",
     "nuxt": "^2.15.8",
     "nuxt-leaflet": "^0.0.27",
