@@ -37,10 +37,15 @@
       <div class="w-11/12 md:w-4/5 my-8 overflow-hidden rounded-lg">
         <div style="height: 30rem; display:flex; justify-content: center;">
           <client-only>
-            <l-map id="map" ref="myMap" :zoom="12" :center="[$store.state.latitude, $store.state.longitude]" @ready="onReadyMap()">
+            <l-map id="map" ref="myMap" :zoom="12" :center="[$store.state.latitude, $store.state.longitude]" @ready="onReadyMap(defineRoute)">
               <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png" />
             </l-map>
           </client-only>
+        </div>
+        <div>
+          <button @click="onReadyMap('1')">transporte 1</button>
+          <button @click="onReadyMap('2')">transporte 2</button>
+          <button @click="onReadyMap('3')">transporte 3</button>
         </div>
       </div>
     </div>
@@ -84,32 +89,34 @@ export default {
       const regex = /([-0-9]+.[0-9]*)/g
       return coords.match(regex)
     },
-    onReadyMap () {
-      // eslint-disable-next-line
-      let monumentCoords = this.$store.state.locations[this.$route.params.index].coord.value
+    onReadyMap (param) {
       const map = this.$refs.myMap.mapObject
       const reverso = this.getCoord().reverse()
-      // eslint-disable-next-line
-      const carRouter = L.Routing.osrmv1({
-        language: 'es',
-        serviceUrl: 'https://routing.openstreetmap.de/routed-car/route/v1'
-      })
-      // eslint-disable-next-line
-      const bikeRouter = L.Routing.osrmv1({
-        language: 'es',
-        serviceUrl: 'https://routing.openstreetmap.de/routed-bike/route/v1'
-      })
-      // eslint-disable-next-line
-      const footRouter = L.Routing.osrmv1({
-        language: 'es',
-        serviceUrl: 'https://routing.openstreetmap.de/routed-foot/route/v1'
-      })
+      let defineRoute
+
+      switch (param) {
+        case '1':
+          defineRoute = 'https://routing.openstreetmap.de/routed-car/route/v1'
+          break
+        case '2':
+          defineRoute = 'https://routing.openstreetmap.de/routed-bike/route/v1'
+          break
+        case '3':
+          defineRoute = 'https://routing.openstreetmap.de/routed-foot/route/v1'
+          break
+        default:
+          defineRoute = 'https://routing.openstreetmap.de/routed-car/route/v1'
+      }
+
       L.Routing.control({
         waypoints: [
           L.latLng(this.$store.state.latitude, this.$store.state.longitude),
           L.latLng(reverso)
         ],
-        router: footRouter
+        router: L.Routing.osrmv1({
+          language: 'es',
+          serviceUrl: defineRoute
+        })
       }).addTo(map)
     },
 
