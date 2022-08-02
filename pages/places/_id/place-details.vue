@@ -28,6 +28,8 @@
       <i class="fa-solid fa-circle-right rounded-full text-gray-700 md:active:text-gray-500 text-4xl transform -translate-x-2" @click="nextBtn" />
     </div>
 
+    <WLMonumentProperties :monumentId="id" v-if="id"/>
+
     <div class="mx-auto md:w-5/6 overflow-hidden px-8 pt-8 pb-16">
       <p class="text-lg md:text-xl text-justify text-gray-700">
         {{ wikiExtract != '' ? wikiExtract : 'No hay descripción' }}
@@ -45,7 +47,8 @@ export default {
       wikiImages: '',
       active: 0,
       error: '',
-      isLinks: false
+      isLinks: false,
+      id: ''
     }
   },
   computed: {
@@ -66,6 +69,7 @@ export default {
   },
   methods: {
     async fetchWiki () {
+      this.id = this.getId
       const urlId = `https://www.wikidata.org/wiki/Special:EntityData/${this.getId}.json`
 
       const getLinks = await fetch(urlId)
