@@ -1,6 +1,9 @@
 <template>
     <div>
-        hola
+        <h1>Properties</h1>
+        <div class="data">
+          <p class="1">{{ values }}</p>
+        </div>
     </div>
 </template>
 
@@ -14,7 +17,7 @@ export default {
   },
   async created () {
     const wdFetch = await this.$axios.get(`https://www.wikidata.org/wiki/Special:EntityData/${this.monumentId}.json`)
-    console.log(wdFetch)
+    this.values = wdFetch
   }
 }
 </script>

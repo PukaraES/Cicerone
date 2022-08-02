@@ -28,13 +28,14 @@
       <i class="fa-solid fa-circle-right rounded-full text-gray-700 md:active:text-gray-500 text-4xl transform -translate-x-2" @click="nextBtn" />
     </div>
 
-    <WLMonumentProperties :monumentId="id" v-if="id"/>
-
     <div class="mx-auto md:w-5/6 overflow-hidden px-8 pt-8 pb-16">
       <p class="text-lg md:text-xl text-justify text-gray-700">
         {{ wikiExtract != '' ? wikiExtract : 'No hay descripción' }}
       </p>
     </div>
+
+    <WLMonumentProperties :monumentId="id" v-if="id"/>
+
   </div>
 </template>
 
@@ -89,6 +90,7 @@ export default {
         const regexWiki = /(?:https:\/\/es.wikipedia.org\/wiki\/)/g
         const wikiArticle = wikiUrl.replace(regexWiki, '')
         const urlWiki = `https://es.wikipedia.org/w/api.php?format=json&origin=*&action=query&prop=extracts&explaintext=false&exintro&titles=${wikiArticle}&indexpageids=true`
+        console.log(urlWiki)
         const getWiki = await fetch(urlWiki)
           .then(res => res.json())
           .catch(eres => eres)
